@@ -122,8 +122,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'username', 'password', 'token', 'profile', 'bio', 
-            'image',
+            'email', 'username', 'password', 'token', 'profile', 'bio', 'image',
         )
 
         # The `read_only_fields` option is an alternative for explicitly
@@ -160,11 +159,6 @@ class UserSerializer(serializers.ModelSerializer):
             # of the security stuff that we shouldn't be concerned with.
             instance.set_password(password)
 
-        # Finally, after everything has been updated, we must explicitly save
-        # the model. It's worth pointing out that `.set_password()` does not
-        # save the model.
-        instance.save()
-
         for (key, value) in profile_data.items():
             # We're doing the same thing as above, but this time we're making
             # changes to the Profile model.
@@ -172,5 +166,11 @@ class UserSerializer(serializers.ModelSerializer):
             
         # Save the profile just like we saved the user.
         instance.profile.save()
+
+        # Finally, after everything has been updated, we must explicitly save
+        # the model. It's worth pointing out that `.set_password()` does not
+        # save the model.
+        instance.save()
+
 
         return instance
