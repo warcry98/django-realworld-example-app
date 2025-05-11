@@ -136,4 +136,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
             'exp': int(dt.strftime('%s'))
         }, settings.SECRET_KEY, algorithm='HS256')
 
-        return token.decode('utf-8')
+        if isinstance(token, bytes):
+            return token.decode('utf-8')
+        else:
+            return token
